@@ -39,3 +39,17 @@ class blockchain():
         ''' return last block '''
         pass
 
+    @staticmethod
+    def valid_proof(last_proof, proof):
+        ''' check if this proof is fine or not '''
+        this_proof = f'{proof}{last_proof}'.encode()
+        this_proof_hash = hashlib.sha256(this_proof).hexdigest()
+        return this_proof_hash[:4] == '0000'
+
+    def proof_of_work(self, last_proof):
+        ''' shows that the work is done '''
+        proof = 0
+        while self.valid_proof(last_proof, proof) is False:
+            proof += 1
+        return proof
+
